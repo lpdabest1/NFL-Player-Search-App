@@ -1,5 +1,4 @@
 
-from pandas.core.base import SelectionMixin
 import requests
 from bs4 import BeautifulSoup as bs
 import time
