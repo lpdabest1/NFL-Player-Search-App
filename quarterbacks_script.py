@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpim
 import numpy as np
 from mpl_toolkits import mplot3d
-
+import streamlit as st
 import matplotlib.image as mpimg
 
 from io import BytesIO
@@ -23,12 +23,12 @@ import urllib.request
 def app():
 
     # calculating current nfl season as most recent season available to scrape
-    last_passer_rating_season = 2006
+    current_rating_season = 2021
     #selected_year_input = input("Enter a year: ")
     #selected_year = (list(reversed(range(1932,last_passer_rating_season))))
 
     #selected_years = [str(i) for i in range(1932, 2006)]
-    selected_years = 2020
+    selected_years = 2021
     def scraping_QB_Stats(selected_years):
         players = []
 
@@ -150,8 +150,6 @@ def app():
 
 
         df = pd.DataFrame(players)
-        #df.to_csv("NFL_Player_QB_Search.csv")
-        #print(df)
         return df
     df = scraping_QB_Stats(selected_years)
 
@@ -205,7 +203,25 @@ def app():
         # Merging the Statistics Dataframe with the Image DataFrame
     images_src = df3["Player_Image"]
     df_merged = df.join(images_src)
+    df_merged = df_merged.astype({
+                                'Player':'str',
+                                'Team':'str',
+                                'Age':'int',
+                                'Passes Completed':'int',
+                                'Passes Attempted':'int',
+                                'Completion Percentage':'str',
+                                'Passing Yards':'int',
+                                'Passing Touchdowns':'int',
+                                'Touchdown Percentage':'str',
+                                'Interceptions':'int',
+                                'Interceptions Percentage':'str',
+                                'Yards Per Attempt':'str',
+                                'Adjusted Yards Per Attempt':'str',
+                                'Yards per Completion':'str',
+                                'Yards Per Game':'str',
+                                'Passer Rating':'str',                                   
+                                })
 
-    print(df_merged)
+    #print(df_merged)
+    df.to_csv('quarterbacks_stats',index=False)
 
-    
