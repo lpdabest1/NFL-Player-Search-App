@@ -1,0 +1,50 @@
+Player,Team,Age,Games Played,Games Started,Passes Completed,Passes Attempted,Completion Percentage,Passing Yards,Passing Touchdowns,Touchdown Percentage,Interceptions,Interceptions Percentage,Yards Per Attempt,Adjusted Yards Per Attempt,Yards per Completion,Yards Per Game,Passer Rating,Player_Image
+Derek Carr,Las Vegas Raiders,30,4,4,109,170,64.1,1399,8,4.7,3,1.8,8.2,8.4,12.8,349.8,98.1,https://www.pro-football-reference.com/req/20180910/images/headshots/CarrDe02_2021.jpg
+Tom Brady,Tampa Bay Buccaneers,44,4,4,119,184,64.7,1356,10,5.4,2,1.1,7.4,8.0,11.4,339.0,100.3,https://www.pro-football-reference.com/req/20180910/images/headshots/BradTo00_2021.jpg
+Kyler Murray,Arizona Cardinals,24,4,4,102,134,76.1,1273,9,6.7,4,3.0,9.5,9.5,12.5,318.3,115.0,https://www.pro-football-reference.com/req/20180910/images/headshots/MurrKy00_2021.jpg
+Matthew Stafford,Los Angeles Rams,33,4,4,92,135,68.1,1222,11,8.1,2,1.5,9.1,10.0,13.3,305.5,117.6,https://www.pro-football-reference.com/req/20180910/images/headshots/StafMa00_2021.jpg
+Patrick Mahomes,Kansas City Chiefs,26,4,4,102,141,72.3,1218,14,9.9,4,2.8,8.6,9.3,11.9,304.5,119.6,https://www.pro-football-reference.com/req/20180910/images/headshots/MahoPa00_2021.jpg
+Sam Darnold,Carolina Panthers,24,4,4,99,146,67.8,1189,5,3.4,3,2.1,8.1,7.9,12.0,297.3,95.4,https://www.pro-football-reference.com/req/20180910/images/headshots/DarnSa00_2021.jpg
+Daniel Jones,New York Giants,24,4,4,96,144,66.7,1184,4,2.8,1,0.7,8.2,8.5,12.3,296.0,98.3,https://www.pro-football-reference.com/req/20180910/images/headshots/JoneDa05_2020.jpg
+Justin Herbert,Los Angeles Chargers,23,4,4,113,164,68.9,1178,9,5.5,3,1.8,7.2,7.5,10.4,294.5,100.1,https://www.pro-football-reference.com/req/20180910/images/headshots/HerbJu00_2021.jpg
+Jalen Hurts,Philadelphia Eagles,23,4,4,96,145,66.2,1167,7,4.8,2,1.4,8.0,8.4,12.2,291.8,101.1,https://www.pro-football-reference.com/req/20180910/images/headshots/HurtJa00_2021.jpg
+Kirk Cousins,Minnesota Vikings,33,4,4,108,157,68.8,1121,9,5.7,1,0.6,7.1,8.0,10.4,280.3,105.6,https://www.pro-football-reference.com/req/20180910/images/headshots/CousKi00_2021.jpg
+Jared Goff,Detroit Lions,27,4,4,110,161,68.3,1100,7,4.3,2,1.2,6.8,7.1,10.0,275.0,96.8,https://www.pro-football-reference.com/req/20180910/images/headshots/GoffJa00_2021.jpg
+Lamar Jackson,Baltimore Ravens,24,4,4,75,124,60.5,1077,4,3.2,3,2.4,8.7,8.2,14.4,269.3,89.3,https://www.pro-football-reference.com/req/20180910/images/headshots/JackLa00_2021.jpg
+Dak Prescott,Dallas Cowboys,28,4,4,100,133,75.2,1066,10,7.5,2,1.5,8.0,8.8,10.7,266.5,116.9,https://www.pro-football-reference.com/req/20180910/images/headshots/PresDa01_2021.jpg
+Josh Allen,Buffalo Bills,25,4,4,99,156,63.5,1055,9,5.8,2,1.3,6.8,7.3,10.7,263.8,97.0,https://www.pro-football-reference.com/req/20180910/images/headshots/AlleJo02_2021.jpg
+Ryan Tannehill,Tennessee Titans,33,4,4,96,151,63.6,1054,5,3.3,3,2.0,7.0,6.7,11.0,263.5,86.9,https://www.pro-football-reference.com/req/20180910/images/headshots/TannRy00_2020.jpg
+Russell Wilson,Seattle Seahawks,33,4,4,79,109,72.5,1044,9,8.3,0,0.0,9.6,11.2,13.2,261.0,129.9,https://www.pro-football-reference.com/req/20180910/images/headshots/WilsRu00_2021.jpg
+Ben Roethlisberger,Pittsburgh Steelers,39,4,4,109,170,64.1,1033,4,2.4,4,2.4,6.1,5.5,9.5,258.3,78.9,https://www.pro-football-reference.com/req/20180910/images/headshots/RoetBe00_2020.jpg
+Mac Jones,New England Patriots,23,4,4,112,160,70.0,1012,4,2.5,4,2.5,6.3,5.7,9.0,253.0,84.7,https://www.pro-football-reference.com/req/20180910/images/headshots/JoneMa05_2021.jpg
+Matt Ryan,Atlanta Falcons,36,4,4,108,159,67.9,990,8,5.0,3,1.9,6.2,6.4,9.2,247.5,93.5,https://www.pro-football-reference.com/req/20180910/images/headshots/RyanMa00_2021.jpg
+Joe Burrow,Cincinnati Bengals,25,4,4,78,107,72.9,988,9,8.4,4,3.7,9.2,9.2,12.7,247.0,113.8,https://www.pro-football-reference.com/req/20180910/images/headshots/BurrJo01_2021.jpg
+Taylor Heinicke,Washington Football Team,28,4,3,82,118,69.5,960,8,6.8,3,2.5,8.1,8.3,11.7,240.0,105.9,https://www.pro-football-reference.com/req/20180910/images/headshots/HeinTa00_2021.jpg
+Baker Mayfield,Cleveland Browns,26,4,4,74,113,65.5,935,2,1.8,2,1.8,8.3,7.8,12.6,233.8,89.7,https://www.pro-football-reference.com/req/20180910/images/headshots/MayfBa00_2020.jpg
+Jimmy Garoppolo,San Francisco 49ers,30,4,4,78,118,66.1,925,5,4.2,2,1.7,7.8,7.9,11.9,231.3,96.9,https://www.pro-football-reference.com/req/20180910/images/headshots/GaroJi00_2021.jpg
+Zach Wilson,New York Jets,22,4,4,79,139,56.8,925,4,2.9,8,5.8,6.7,4.6,11.7,231.3,62.8,https://www.pro-football-reference.com/req/20180910/images/headshots/WilsZa00_2021.jpg
+Carson Wentz,Indianapolis Colts,29,4,4,88,138,63.8,920,5,3.6,1,0.7,6.7,7.1,10.5,230.0,92.1,https://www.pro-football-reference.com/req/20180910/images/headshots/WentCa00_2021.jpg
+Aaron Rodgers,Green Bay Packers,38,4,4,80,124,64.5,897,8,6.5,2,1.6,7.2,7.8,11.2,224.3,100.8,https://www.pro-football-reference.com/req/20180910/images/headshots/RodgAa00_2021.jpg
+Teddy Bridgewater,Denver Broncos,29,4,4,80,111,72.1,892,5,4.5,0,0.0,8.0,8.9,11.2,223.0,110.6,https://www.pro-football-reference.com/req/20180910/images/headshots/BridTe00_2021.jpg
+Trevor Lawrence,Jacksonville Jaguars,22,4,4,81,142,57.0,873,5,3.5,7,4.9,6.1,4.6,10.8,218.3,66.4,https://www.pro-football-reference.com/req/20180910/images/headshots/LawrTr00_2021.jpg
+Jameis Winston,New Orleans Saints,27,4,4,55,86,64.0,613,8,9.3,2,2.3,7.1,7.9,11.1,153.3,106.4,https://www.pro-football-reference.com/req/20180910/images/headshots/WinsJa00_2021.jpg
+Jacoby Brissett,Miami Dolphins,29,4,2,76,119,63.9,583,2,1.7,1,0.8,4.9,4.9,7.7,145.8,77.8,https://www.pro-football-reference.com/req/20180910/images/headshots/BrisJa00_2021.jpg
+Tyrod Taylor,Houston Texans,32,2,2,31,44,70.5,416,3,6.8,0,0.0,9.5,10.8,13.4,208.0,122.9,https://www.pro-football-reference.com/req/20180910/images/headshots/TaylTy00_2021.jpg
+Davis Mills,Houston Texans,23,3,2,38,67,56.7,357,2,3.0,5,7.5,5.3,2.6,9.4,119.0,50.4,https://www.pro-football-reference.com/req/20180910/images/headshots/MillDa02_2021.jpg
+Justin Fields,Chicago Bears,22,4,2,25,52,48.1,347,0,0.0,2,3.8,6.7,4.9,13.9,86.8,53.9,https://www.pro-football-reference.com/req/20180910/images/headshots/FielJu00_2021.jpg
+Andy Dalton,Chicago Bears,34,2,2,36,49,73.5,262,1,2.0,1,2.0,5.3,4.8,7.3,131.0,83.9,https://www.pro-football-reference.com/req/20180910/images/headshots/DaltAn00_2021.jpg
+Tua Tagovailoa,Miami Dolphins,23,2,2,17,31,54.8,215,1,3.2,1,3.2,6.9,6.1,12.6,107.5,74.0,https://www.pro-football-reference.com/req/20180910/images/headshots/TagoTu00_2021.jpg
+Trey Lance,San Francisco 49ers,21,3,0,10,19,52.6,162,3,15.8,0,0.0,8.5,11.7,16.2,54.0,121.1,https://www.pro-football-reference.com/req/20180910/images/headshots/LancTr00_2021.jpg
+Drew Lock,Denver Broncos,25,1,0,12,21,57.1,113,0,0.0,1,4.8,5.4,3.2,9.4,113.0,52.3,https://www.pro-football-reference.com/req/20180910/images/headshots/LockDr00_2021.jpg
+Jordan Love,Green Bay Packers,23,2,0,5,7,71.4,68,0,0.0,0,0.0,9.7,9.7,13.6,34.0,102.1,https://www.pro-football-reference.com/req/20180910/images/headshots/LoveJo03_2021.jpg
+Jakobi Meyers,New England Patriots,25,4,4,2,2,100.0,45,0,0.0,0,0.0,22.5,22.5,22.5,11.3,118.7,https://www.pro-football-reference.com/req/20180910/images/headshots/MeyeJa01_2021.jpg
+Jacob Eason,Indianapolis Colts,24,1,0,2,5,40.0,25,0,0.0,1,20.0,5.0,-4.0,12.5,25.0,16.7,https://www.pro-football-reference.com/req/20180910/images/headshots/EasoJa00_2021.jpg
+Ryan Fitzpatrick,Washington Football Team,39,1,1,3,6,50.0,13,0,0.0,0,0.0,2.2,2.2,4.3,13.0,56.2,https://www.pro-football-reference.com/req/20180910/images/headshots/FitzRy00_2021.jpg
+Taysom Hill,New Orleans Saints,31,4,3,3,4,75.0,12,0,0.0,1,25.0,3.0,-8.3,4.0,3.0,37.5,https://www.pro-football-reference.com/req/20180910/images/headshots/HillTa00_2021.jpg
+Justin Jefferson,Minnesota Vikings,22,4,4,1,1,100.0,11,0,0.0,0,0.0,11.0,11.0,11.0,2.8,112.5,https://www.pro-football-reference.com/req/20180910/images/headshots/JeffJu00_2021.jpg
+Mitchell Trubisky,Buffalo Bills,27,3,0,2,2,100.0,9,0,0.0,0,0.0,4.5,4.5,4.5,3.0,85.4,https://www.pro-football-reference.com/req/20180910/images/headshots/TrubMi00_2021.jpg
+Matthias Farley,Tennessee Titans,29,4,0,1,1,100.0,6,0,0.0,0,0.0,6.0,6.0,6.0,1.5,91.7,https://www.pro-football-reference.com/req/20180910/images/headshots/FarlMa00_2019.jpg
+Ty Long,Los Angeles Chargers,28,4,0,0,1,0.0,0,0,0.0,0,0.0,0.0,0.0,,0.0,39.6,https://www.pro-football-reference.com/req/20180910/images/headshots/LongTy00_2021.jpg
+Josh Rosen,Atlanta Falcons,24,2,0,0,2,0.0,0,0,0.0,0,0.0,0.0,0.0,,0.0,39.6,https://www.pro-football-reference.com/req/20180910/images/headshots/RoseJo01_2021.jpg
+D'Andre Swift,Detroit Lions,22,4,0,0,1,0.0,0,0,0.0,0,0.0,0.0,0.0,,0.0,39.6,https://www.pro-football-reference.com/req/20180910/images/headshots/SwifDA00_2021.jpg
+Greg Ward,Philadelphia Eagles,26,4,0,0,1,0.0,0,0,0.0,0,0.0,0.0,0.0,,0.0,39.6,https://www.pro-football-reference.com/req/20180910/images/headshots/WardGr02_2021.jpg
