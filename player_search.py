@@ -23,6 +23,8 @@ def init_connection():
     
 conn = init_connection()
 
+
+
 # Perform query.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 #@st.cache(ttl=600)
