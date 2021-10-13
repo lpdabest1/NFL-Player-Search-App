@@ -19,5 +19,6 @@ def app():
     myresult = mycursor.fetchall()
 
 
-    for x in myresult:
-        print(x)
+    #for x in myresult:
+    #    print(x)
+    st.write(myresult)
