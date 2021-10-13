@@ -27,8 +27,8 @@ def run_query(query):
 
 # comments
 #rows = run_query("SELECT * FROM nfl_player_qb_search")
-rows = run_query("SELECT * FROM nfl_qb_")
-player_img = run_query("SELECT * FROM nfl_qb_search_images")
+rows = run_query("SELECT * FROM nfl_qb_;")
+player_img = run_query("SELECT * FROM nfl_qb_search_images;")
 
 # Print results.
 #for row in rows:
