@@ -41,8 +41,8 @@ import requests
 # Print results.
 #for row in rows:
     #st.write(f"{row[0]} has a :{row[1]}:")
-rows = pd.read_csv('NFL_QB_Search.csv',index=False)
-player_img = pd.read_csv('NFL_QB_Search_Images.csv',index=False)
+rows = pd.read_csv('NFL_QB_Search.csv')
+player_img = pd.read_csv('NFL_QB_Search_Images.csv')
 qb_data = pd.DataFrame(rows)
 qb_img = pd.DataFrame(player_img)
 
