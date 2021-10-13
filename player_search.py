@@ -25,7 +25,7 @@ def run_query(query):
         cur.execute(query)
         return cur.fetchall()
 
-
+# comments
 #rows = run_query("SELECT * FROM nfl_player_qb_search")
 rows = run_query("SELECT * FROM nfl_qb_")
 player_img = run_query("SELECT * FROM nfl_qb_search_images")
