@@ -12,37 +12,37 @@ import requests
 # Initialize connection.
 # Uses st.cache to only run once.
 #@st.cache(allow_output_mutation=True, suppress_st_warning=True, hash_funcs={"_thread.RLock": lambda _: None})
-def init_connection():
-    #return mysql.connector.connect(**st.secrets["mysql"])
-    return mysql.connector.connect(
-    host="localhost",
-    user="root",
-    port=3306,
-    password="s2037940!!PP",
-    database="nfl_stats")
+#def init_connection():
+#    #return mysql.connector.connect(**st.secrets["mysql"])
+#    return mysql.connector.connect(
+#    host="localhost",
+#    user="root",
+#    port=3306,
+#    password="s2037940!!PP",
+#    database="nfl_stats")
     
-conn = init_connection()
+#conn = init_connection()
 
 
 
 # Perform query.
 # Uses st.cache to only rerun when the query changes or after 10 min.
 #@st.cache(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+#def run_query(query):
+#    with conn.cursor() as cur:
+#        cur.execute(query)
+#        return cur.fetchall()
 
 # comments
 #rows = run_query("SELECT * FROM nfl_player_qb_search")
-rows = run_query("SELECT * FROM nfl_qb_;")
-player_img = run_query("SELECT * FROM nfl_qb_search_images;")
+#rows = run_query("SELECT * FROM nfl_qb_;")
+#player_img = run_query("SELECT * FROM nfl_qb_search_images;")
 
 # Print results.
 #for row in rows:
     #st.write(f"{row[0]} has a :{row[1]}:")
-
-
+rows = pd.read_csv('NFL_QB_Search.csv',index=False)
+player_img = pd.read_csv('NFL_QB_Search_Images.csv',index=False)
 qb_data = pd.DataFrame(rows)
 qb_img = pd.DataFrame(player_img)
 
