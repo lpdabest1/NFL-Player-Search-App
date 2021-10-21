@@ -16,7 +16,6 @@ import matplotlib.image as mpimg
 from io import BytesIO
 import urllib.request
 
-
 players_image_urls = []
 
 url = 'https://www.pro-football-reference.com/players/'

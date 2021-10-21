@@ -11,3 +11,5 @@ for i in df_qb.Player:
     for j in df_qb_images.Player:
         if i == j:
             df_merge = df_qb.merge(df_qb_images[['Player']])
+
+
