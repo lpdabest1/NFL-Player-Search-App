@@ -19,7 +19,4 @@ page = Pages[selection]
 
 if page:
     page.app()
-
-
-
-    
+  

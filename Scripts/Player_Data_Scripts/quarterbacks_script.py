@@ -30,10 +30,6 @@ def scraping_qb_stats(selected_year):
                 while True:
                     try:
                         
-                        ranking_search = i.find('th', {'data-stat':'ranker'})
-                        ranking = ranking_search['csk']
-
-                        
                         names_search = i.find('td', {'data-stat':'player'})
                         names_text = names_search.find('a')
                         names = names_text.text

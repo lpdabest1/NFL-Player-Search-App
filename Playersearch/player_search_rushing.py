@@ -33,8 +33,8 @@ def app():
                 'San Francisco 49ers':'#aa0000', 'Seattle Seahawks':'#002244', 'Tampa Bay Buccaneers':'#d50a0a', 'Tennessee Titans':'#0c2340', 'Washington Football Team':'#773141'}
 
 
-    rows = pd.read_csv('NFL_RB_Search.csv')
-    player_img = pd.read_csv('NFL_RB_Search_Images.csv')
+    rows = pd.read_csv('CSV_Files/NFL_RB/NFL_RB_Search.csv')
+    player_img = pd.read_csv('CSV_Files/NFL_RB/NFL_RB_Search_Images.csv')
     rb_data = pd.DataFrame(rows)
     rb_img = pd.DataFrame(player_img)
     sorted_unique_players = sorted(rb_data.Player.unique())
@@ -88,7 +88,7 @@ def app():
 
     # RB Placeholder Image if the player did not have an image collected during webscraping
     if not rb_img.Player.isin([user_input]).any():
-        rb_img_placeholder = Image.open('rb_playerholder_image.jpg')
+        rb_img_placeholder = Image.open('Placeholder_Images/rb_playerholder_image.jpg')
         rb_img_placeholder = rb_img_placeholder.resize((344,382))
         col1.image(rb_img_placeholder,  caption=user_input)    
 
