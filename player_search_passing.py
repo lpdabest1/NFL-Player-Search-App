@@ -328,6 +328,6 @@ def app():
 
 
     if user_input and player_index >= 0:
-        col1.success(user_input + ' ranked ' + str(player_rank) + ' out of ' + str(ranking_len) + ' quaterbacks during the ' + str(selected_years) + ' season.')
+        col1.success(user_input + ' ranked ' + str(player_rank) + ' out of ' + str(ranking_len) + ' qualifying Quarterbacks during the ' + str(selected_years) + ' season.')
     if user_input and  player_index == -1: 
         col1.error('Not enough data to be ranked for the ' + str(selected_years) + ' season.')

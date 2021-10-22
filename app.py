@@ -12,6 +12,7 @@ st.title('Pro Football Player Search')
 st.sidebar.title('Pro Football Archives')
 
 
+
 Pages = {"Passers (QB)": player_search_passing,
          "Rushers (RB)": player_search_rushing
         }
