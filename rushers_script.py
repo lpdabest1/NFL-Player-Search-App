@@ -20,10 +20,10 @@ players = []
 player_images = []
 
 
-'''
+
 def scraping_rb_stats(selected_year):
     for i in selected_year:
-    #def scraping_past_QB_Stats(i):
+    
         
 
 
@@ -44,10 +44,6 @@ def scraping_rb_stats(selected_year):
             for i in href_tr_data:
                 while True:
                     try:
-                        
-                        ranking_search = i.find('th', {'data-stat':'ranker'})
-                        ranking = ranking_search['csk']
-
                         
                         names_search = i.find('td', {'data-stat':'player'})
                         #names = names_search['csk']
@@ -131,7 +127,7 @@ df = scraping_rb_stats(selected_year)
 
     #def load_data(i):
     #player_images = []
-'''
+
 def load_data(selected_year):
     for i in selected_year:
         url = 'https://www.pro-football-reference.com/years/' + str(i) + '/rushing.htm'
