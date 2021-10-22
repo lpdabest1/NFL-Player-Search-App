@@ -77,6 +77,6 @@ def load_data(selected_year):
 
             
     df2 = pd.DataFrame(player_images)
-    df2.to_csv("NFL_QB_Search_Images.csv", index=False)
+    df2.to_csv("NFL_QB_Search_Images_Test.csv", index=False)
     return df2
 df2 = load_data(selected_year)

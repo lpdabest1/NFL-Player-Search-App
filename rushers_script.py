@@ -1,5 +1,3 @@
-from ast import Index
-from pandas.core.base import SelectionMixin
 import requests
 from bs4 import BeautifulSoup as bs
 import time
@@ -13,9 +11,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpim
 import numpy as np
 from mpl_toolkits import mplot3d
-#%matplotlib inline
-
-
 
 # calculating current nfl season as most recent season available to scrape
 current_season = 2021
@@ -23,14 +18,16 @@ current_season = 2021
 selected_year = range(1960, current_season)
 players = []
 player_images = []
+
+
 '''
-def scraping_qb_stats(selected_year):
+def scraping_rb_stats(selected_year):
     for i in selected_year:
     #def scraping_past_QB_Stats(i):
         
 
 
-        url = 'https://www.pro-football-reference.com/years/'+ str(i) + '/passing.htm'
+        url = 'https://www.pro-football-reference.com/years/'+ str(i) + '/rushing.htm'
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         page = requests.get(url,headers=headers, timeout=5, allow_redirects = True )
         soup = bs(page.content, 'html.parser')
@@ -75,79 +72,41 @@ def scraping_qb_stats(selected_year):
                         games_played = games_played_search.text     
 
                         
-                        passes_completed_search = i.find('td',{'data-stat':'pass_cmp'})
-                        passes_completed = passes_completed_search.text        
+                        rush_att_search = i.find('td',{'data-stat':'rush_att'})
+                        rush_att = rush_att_search.text        
 
                         
-                        passes_attempted_search = i.find('td',{'data-stat':'pass_att'})
-                        passes_attempted = passes_attempted_search.text       
-
-
-                        
-                        completion_percentage_search = i.find('td',{'data-stat':'pass_cmp_perc'})
-                        completion_percentage = completion_percentage_search.text         
+                        rush_yds_search = i.find('td',{'data-stat':'rush_yds'})
+                        rush_yds = rush_yds_search.text       
 
 
                         
-                        passing_yards_search = i.find('td',{'data-stat':'pass_yds'})
-                        passing_yards = passing_yards_search.text         
+                        rush_td_search = i.find('td',{'data-stat':'rush_td'})
+                        rush_td = rush_td_search.text         
 
 
                         
-                        passing_touchdowns_search = i.find('td',{'data-stat':'pass_td'})
-                        passing_touchdowns = passing_touchdowns_search.text
+                        rush_long_search = i.find('td',{'data-stat':'rush_long'})
+                        rush_long = rush_long_search.text         
+
+
+                        
+                        rush_yds_per_att_search = i.find('td',{'data-stat':'rush_yds_per_att'})
+                        yds_per_att = rush_yds_per_att_search.text
                     
 
                         
-                        touchdown_percentage_search = i.find('td',{'data-stat':'pass_td_perc'})
-                        touchdown_percentage = touchdown_percentage_search.text
+                        rush_yds_per_g_search = i.find('td',{'data-stat':'rush_yds_per_g'})
+                        yds_per_g = rush_yds_per_g_search.text
 
                       
-                        interceptions_search = i.find('td',{'data-stat':'pass_int'})
-                        interceptions = interceptions_search.text
-
-
-                        
-                        interception_percentage_search = i.find('td',{'data-stat':'pass_int_perc'})
-                        interception_percentage = interception_percentage_search.text
-
-
-                        
-                        pass_long_search = i.find('td',{'data-stat':'pass_long'})
-                        pass_long = pass_long_search.text
-
-
-                       
-                        yards_per_attempt_search = i.find('td',{'data-stat':'pass_yds_per_att'})
-                        yards_per_attempt = yards_per_attempt_search.text
-
-
-                        
-                        adj_yards_per_attempt_search = i.find('td',{'data-stat':'pass_adj_yds_per_att'})
-                        adj_yards_per_attempt = adj_yards_per_attempt_search.text
-
-
-                        
-                        yards_per_completion_search = i.find('td',{'data-stat':'pass_yds_per_cmp'})
-                        yards_per_completion = yards_per_completion_search.text
-
-
-                        
-                        yards_per_game_search = i.find('td',{'data-stat':'pass_yds_per_g'})
-                        yards_per_game = yards_per_game_search.text
-
-
-                        
-                        passer_rating_search = i.find('td',{'data-stat':'pass_rating'})
-                        passer_rating = passer_rating_search.text
-
+                        fumbles_search = i.find('td',{'data-stat':'fumbles'})
+                        fumbles = fumbles_search.text
 
                         #Formatting Data Collected
                         player = { "Player": names, "Team": team, "Age": age, "Games Played": games, "Games Started": games_played, 
-                    "Passes Completed": passes_completed, "Passes Attempted": passes_attempted, "Completion Percentage": completion_percentage, "Passing Yards": passing_yards, "Passing Touchdowns": passing_touchdowns,
-                    "Touchdown Percentage": touchdown_percentage, "Interceptions": interceptions, "Interceptions Percentage": interception_percentage, "Longest Pass": pass_long,
-                    "Yards Per Attempt": yards_per_attempt, "Adjusted Yards Per Attempt": adj_yards_per_attempt, "Yards per Completion": yards_per_completion, "Yards Per Game": yards_per_game,
-                    "Passer Rating": passer_rating, "Year": year}
+                                   "Att": rush_att, "Yards": rush_yds, "TD": rush_td, "Long": rush_long,
+                                   "Y/A": yds_per_att, "Y/G": yds_per_g, "Fumbles": fumbles, "Year": year}
                         #Appending Each player to Players List
                         players.append(player)
             
@@ -162,24 +121,24 @@ def scraping_qb_stats(selected_year):
 
 
     df = pd.DataFrame(players)
-    df.to_csv("NFL_QB_Search.csv", index=False)
+    df.to_csv("NFL_RB_Search.csv", index=False)
     #print(df)
     return df
-df = scraping_qb_stats(selected_year)
-'''
+df = scraping_rb_stats(selected_year)
+
     #########################################################################################
     # Player Image Scraper Starts Here
 
     #def load_data(i):
     #player_images = []
-
+'''
 def load_data(selected_year):
     for i in selected_year:
-        url = 'https://www.pro-football-reference.com/years/' + str(i) + '/passing.htm'
+        url = 'https://www.pro-football-reference.com/years/' + str(i) + '/rushing.htm'
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         page = requests.get(url,headers=headers, timeout=2, allow_redirects = True )
         soup = bs(page.content, 'html.parser')
-        href = soup.find('table', {'id': 'passing'})
+        href = soup.find('table', {'id': 'rushing'})
         href_th = soup.find_all('th',{'class':'right'})
         href_tbody = soup.find_all('tbody')
         href_tr = soup.find_all('tr')
@@ -220,9 +179,11 @@ def load_data(selected_year):
                                             "Player Image": img_src,
                                             
                                                         }
- 
+
+                                        #Check code output
                                         player_images.append(player_image)
-                                        
+                                        break
+                                        #print(player_images)
                                     else:
                                         break
                                 except:
@@ -233,7 +194,7 @@ def load_data(selected_year):
 
             
     df2 = pd.DataFrame(player_images)
-    df2.to_csv("NFL_QB_Search_Images.csv", index=False)
+    df2.to_csv("NFL_RB_Search_Images.csv", index=False)
     return df2
 df2 = load_data(selected_year)
 
@@ -243,3 +204,4 @@ df2 = load_data(selected_year)
 
 #df = pd.DataFrame(players)
 #print(df)
+
