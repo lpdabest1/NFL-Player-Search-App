@@ -81,13 +81,16 @@ def app():
         for i in player_image['Player Image']:
             get_url = requests.get(i)
             img = Image.open(BytesIO(get_url.content))
-            col1.image(img, width=250, caption=user_input)
+            img = img.resize((300,382))
+            col1.image(img, caption=user_input)
+            #col1.image(img, width=250, caption=user_input)
             break
 
-    # RB Placeholder Image if the player did not have an image collected during webscraping (FIX THIS!!)
-    #if not rb_img.Player.isin([user_input]).any():
-    #    rb_img_placeholder = Image.open('rb_playerholder_img.jpg')
-    #    col1.image(rb_img_placeholder, width=350, caption=user_input)    
+    # RB Placeholder Image if the player did not have an image collected during webscraping
+    if not rb_img.Player.isin([user_input]).any():
+        rb_img_placeholder = Image.open('rb_playerholder_image.jpg')
+        rb_img_placeholder = rb_img_placeholder.resize((344,382))
+        col1.image(rb_img_placeholder,  caption=user_input)    
 
     # Stat Categories
     # Att, Rush Yds, TD, Yds/Att, Yds/G,

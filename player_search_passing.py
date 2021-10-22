@@ -85,13 +85,17 @@ def app():
         for i in player_image['Player Image']:
             get_url = requests.get(i)
             img = Image.open(BytesIO(get_url.content))
-            col1.image(img, width=250, caption=user_input)
+            img = img.resize((300, 406))
+            col1.image(img, caption=user_input)
+            #col1.image(img, width=250, caption=user_input)
             break
 
     # QB Placeholder Image if the player did not have an image collected during webscraping
     if not qb_img.Player.isin([user_input]).any():
         qb_img_placeholder = Image.open('qb_playerholder_img.jpg')
-        col1.image(qb_img_placeholder, width=350, caption=user_input)    
+        qb_img_placeholder = qb_img_placeholder.resize((344,406))
+        col1.image(qb_img_placeholder, caption=user_input)
+        #col1.image(qb_img_placeholder, width=350, caption=user_input)    
 
 
     #   Naveen Venkatesan --> Data Scientist url:https://towardsdatascience.com/scraping-nfl-stats-to-compare-quarterback-efficiencies-4989642e02fe
