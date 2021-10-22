@@ -2,34 +2,16 @@ from ast import Index
 from pandas.core.base import SelectionMixin
 import requests
 from bs4 import BeautifulSoup as bs
-import time
 import pandas as pd
-import random
-import re
-import urllib.request
-from PIL import Image
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import matplotlib.image as mpim
-import numpy as np
-from mpl_toolkits import mplot3d
-#%matplotlib inline
-
-
 
 # calculating current nfl season as most recent season available to scrape
 current_season = 2021
-#selected_year = st.sidebar.selectbox('Year', list(reversed(range(1950,current_season))))
 selected_year = range(1960, current_season)
 players = []
 player_images = []
-'''
+
 def scraping_qb_stats(selected_year):
     for i in selected_year:
-    #def scraping_past_QB_Stats(i):
-        
-
-
         url = 'https://www.pro-football-reference.com/years/'+ str(i) + '/passing.htm'
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         page = requests.get(url,headers=headers, timeout=5, allow_redirects = True )
@@ -53,7 +35,6 @@ def scraping_qb_stats(selected_year):
 
                         
                         names_search = i.find('td', {'data-stat':'player'})
-                        #names = names_search['csk']
                         names_text = names_search.find('a')
                         names = names_text.text
 
@@ -166,12 +147,9 @@ def scraping_qb_stats(selected_year):
     #print(df)
     return df
 df = scraping_qb_stats(selected_year)
-'''
-    #########################################################################################
-    # Player Image Scraper Starts Here
 
-    #def load_data(i):
-    #player_images = []
+#########################################################################################
+# Player Image Scraper Starts Here
 
 def load_data(selected_year):
     for i in selected_year:
@@ -179,10 +157,7 @@ def load_data(selected_year):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         page = requests.get(url,headers=headers, timeout=2, allow_redirects = True )
         soup = bs(page.content, 'html.parser')
-        href = soup.find('table', {'id': 'passing'})
-        href_th = soup.find_all('th',{'class':'right'})
         href_tbody = soup.find_all('tbody')
-        href_tr = soup.find_all('tr')
 
 
         for i in href_tbody:
@@ -191,9 +166,7 @@ def load_data(selected_year):
                 while True:
                     try:
                         names_search = i.find('td', {'data-stat':'player'})
-                    #names = names_search['csk']
                         names_text = names_search.find('a')
-                        names = names_text.text
                         for link in names_search.find_all('a', href=True):
                             player_link = link['href']
                             base = 'https://www.pro-football-reference.com'
@@ -236,10 +209,3 @@ def load_data(selected_year):
     df2.to_csv("NFL_QB_Search_Images.csv", index=False)
     return df2
 df2 = load_data(selected_year)
-
-#images_src = df2["Player Image"]
-#df_merged = df.join(images_src)
-
-
-#df = pd.DataFrame(players)
-#print(df)

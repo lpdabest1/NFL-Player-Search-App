@@ -1,7 +1,6 @@
 import streamlit as st
 import player_search_passing, player_search_rushing, player_search_receiving
 
-
 st.set_page_config(
     page_title="NFL Player Search",
     layout="centered",
@@ -10,7 +9,6 @@ st.set_page_config(
 
 st.title('Pro Football Player Search')
 st.sidebar.title('Pro Football Archives')
-
 
 Pages = {"Passers (QB)": player_search_passing,
          "Rushers (RB)": player_search_rushing,
@@ -21,6 +19,7 @@ page = Pages[selection]
 
 if page:
     page.app()
+
 
 
     

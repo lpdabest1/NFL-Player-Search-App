@@ -19,7 +19,6 @@ from mpl_toolkits import mplot3d
 
 # calculating current nfl season as most recent season available to scrape
 current_season = 2021
-#selected_year = st.sidebar.selectbox('Year', list(reversed(range(1950,current_season))))
 selected_year = range(1960, current_season)
 player_images = []
 

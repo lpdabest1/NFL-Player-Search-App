@@ -1,16 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
-import time
 import pandas as pd
-import random
-import re
-import urllib.request
-from PIL import Image
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import matplotlib.image as mpim
-import numpy as np
-from mpl_toolkits import mplot3d
 
 # calculating current nfl season as most recent season available to scrape
 current_season = 2021
