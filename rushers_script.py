@@ -14,12 +14,9 @@ from mpl_toolkits import mplot3d
 
 # calculating current nfl season as most recent season available to scrape
 current_season = 2021
-#selected_year = st.sidebar.selectbox('Year', list(reversed(range(1950,current_season))))
 selected_year = range(1960, current_season)
 players = []
 player_images = []
-
-
 
 def scraping_rb_stats(selected_year):
     for i in selected_year:
@@ -46,7 +43,6 @@ def scraping_rb_stats(selected_year):
                     try:
                         
                         names_search = i.find('td', {'data-stat':'player'})
-                        #names = names_search['csk']
                         names_text = names_search.find('a')
                         names = names_text.text
 
@@ -118,15 +114,12 @@ def scraping_rb_stats(selected_year):
 
     df = pd.DataFrame(players)
     df.to_csv("NFL_RB_Search.csv", index=False)
-    #print(df)
     return df
 df = scraping_rb_stats(selected_year)
 
-    #########################################################################################
-    # Player Image Scraper Starts Here
+#########################################################################################
+# Player Image Scraper Starts Here
 
-    #def load_data(i):
-    #player_images = []
 
 def load_data(selected_year):
     for i in selected_year:
@@ -134,10 +127,7 @@ def load_data(selected_year):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         page = requests.get(url,headers=headers, timeout=2, allow_redirects = True )
         soup = bs(page.content, 'html.parser')
-        href = soup.find('table', {'id': 'rushing'})
-        href_th = soup.find_all('th',{'class':'right'})
         href_tbody = soup.find_all('tbody')
-        href_tr = soup.find_all('tr')
 
 
         for i in href_tbody:
@@ -179,7 +169,6 @@ def load_data(selected_year):
                                         #Check code output
                                         player_images.append(player_image)
                                         break
-                                        #print(player_images)
                                     else:
                                         break
                                 except:
@@ -193,11 +182,4 @@ def load_data(selected_year):
     df2.to_csv("NFL_RB_Search_Images.csv", index=False)
     return df2
 df2 = load_data(selected_year)
-
-#images_src = df2["Player Image"]
-#df_merged = df.join(images_src)
-
-
-#df = pd.DataFrame(players)
-#print(df)
 
