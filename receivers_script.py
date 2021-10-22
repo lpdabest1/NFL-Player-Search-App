@@ -103,11 +103,8 @@ def scraping_wr_stats(selected_year):
     return df
 df = scraping_wr_stats(selected_year)
 
-    #########################################################################################
-    # Player Image Scraper Starts Here
-
-    #def load_data(i):
-    #player_images = []
+#########################################################################################
+# Player Image Scraper Starts Here
 
 def load_data(selected_year):
     for i in selected_year:
@@ -170,11 +167,4 @@ def load_data(selected_year):
     df2.to_csv("NFL_WR_Search_Images.csv", index=False)
     return df2
 df2 = load_data(selected_year)
-
-#images_src = df2["Player Image"]
-#df_merged = df.join(images_src)
-
-
-#df = pd.DataFrame(players)
-#print(df)
 
