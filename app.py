@@ -14,9 +14,9 @@ st.sidebar.title('Pro Football Archives')
 
 Pages = {"Passers (QB)": player_search_passing,
          "Rushers (RB)": player_search_rushing,
-         "Receivers (WR)": player_search_receiving
+         "Receivers (WR/TE/RB)": player_search_receiving
         }
-selection = st.sidebar.selectbox("Select One Of The Following Individual Categories",list(Pages.keys()))
+selection = st.sidebar.selectbox("Select One Of The Following Offensive Categories",list(Pages.keys()))
 page = Pages[selection]
 
 if page:
