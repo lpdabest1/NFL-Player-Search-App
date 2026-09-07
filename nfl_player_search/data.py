@@ -3,16 +3,35 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
 
 from nfl_player_search.config import CategoryConfig
 
 
+def _modern_season_shards(stats_path: Path) -> list[Path]:
+    """Return nflreadpy season shard CSVs: ``NFL_QB_Search_2021.csv`` etc."""
+    return sorted(stats_path.parent.glob(f"{stats_path.stem}_20[2-9][0-9].csv"))
+
+
 @lru_cache(maxsize=8)
 def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None) -> pd.DataFrame:
-    """Load and normalize a stats CSV. Paths are strings for cacheability."""
-    df = pd.read_csv(stats_csv)
+    """Load and normalize a stats CSV. Paths are strings for cacheability.
+
+    Modern seasons (2021+) may live in sibling shard files named
+    ``{stem}_YYYY.csv`` produced by the nflreadpy ETL. Those are concatenated
+    after dropping Year>=2021 from the base file (idempotent with a fully
+    refreshed base CSV).
+    """
+    path = Path(stats_csv)
+    df = pd.read_csv(path)
+    shards = _modern_season_shards(path)
+    if shards:
+        if "Year" in df.columns:
+            df = df[pd.to_numeric(df["Year"], errors="coerce") < 2021]
+        parts = [df] + [pd.read_csv(p) for p in shards]
+        df = pd.concat(parts, ignore_index=True)
     if rename_items:
         df = df.rename(columns=dict(rename_items))
     if "Year" in df.columns:
