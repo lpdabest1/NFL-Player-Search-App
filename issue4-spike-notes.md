@@ -32,7 +32,7 @@ Gaps are mostly pre-nflverse / obscure names (e.g. Johnny Unitas, Gale Sayers, B
 ## CSV vs embed decision
 - One row per unique `Player` with a URL; schema **`Player,Player Image`**
 - Estimated size well under existing PFR image CSVs (which duplicated per-year / stale PFR URLs)
-- **Decision: plain CSV refresh** under `CSV_Files/NFL_{QB,RB,WR}/` — no embed chunks needed (unlike #6 season payloads)
+- **Decision: CSV + embed** — write `CSV_Files/NFL_{QB,RB,WR}/*_Search_Images.csv` and also commit zlib+base64 chunks under `nfl_player_search/image_data/` (same pattern as #6) so runtime load is offline/reliable; UI reads embed first via `load_images`
 
 ## UX
 - Stop silent silhouette-as-photo
