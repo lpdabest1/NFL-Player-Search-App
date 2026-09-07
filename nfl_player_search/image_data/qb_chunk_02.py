@@ -1,4 +1,4 @@
-"""Assembled from _parts/qb_chunk_02; CHUNK matches monolith file."""
+"""Assembled from _parts/qb_chunk_02; exec restores CHUNK like monolith."""
 from pathlib import Path
-_d = Path(__file__).resolve().parent / "_parts" / "qb_chunk_02"
-CHUNK = "".join(p.read_text() for p in sorted(_d.glob("*.txt")))
+_src = "".join(p.read_text() for p in sorted((Path(__file__).resolve().parent / "_parts" / "qb_chunk_02").glob("*.txt")))
+exec(_src, globals())
