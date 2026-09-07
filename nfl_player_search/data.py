@@ -40,6 +40,7 @@ def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None)
                 df = df[pd.to_numeric(df["Year"], errors="coerce") < 2021]
             df = pd.concat([df, modern], ignore_index=True)
         except Exception:
+            # Fall back to historical-only if embedded payload missing
             pass
     if rename_items:
         df = df.rename(columns=dict(rename_items))
@@ -62,14 +63,14 @@ def _position_from_images_path(images_csv: str) -> str | None:
 
 @lru_cache(maxsize=8)
 def load_images(images_csv: str) -> pd.DataFrame:
-    """Load player image URL table (embedded nflverse refresh, else CSV)."""
+    """Load player image URL table (CSV preferred; embedded payload as fallback)."""
+    path = Path(images_csv)
+    if path.is_file():
+        return pd.read_csv(path)
     pos = _position_from_images_path(images_csv)
     if pos is not None:
-        try:
-            from nfl_player_search.image_data import load_image_frame
-            return load_image_frame(pos)
-        except Exception:
-            pass
+        from nfl_player_search.image_data import load_image_frame
+        return load_image_frame(pos)
     return pd.read_csv(images_csv)
 
 
