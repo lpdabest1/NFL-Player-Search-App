@@ -3,16 +3,45 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 import pandas as pd
 
 from nfl_player_search.config import CategoryConfig
 
 
+def _position_from_stats_path(stats_csv: str) -> str | None:
+    name = Path(stats_csv).name.upper()
+    if "NFL_QB" in stats_csv.replace("\\", "/") or name.startswith("NFL_QB"):
+        return "QB"
+    if "NFL_RB" in stats_csv.replace("\\", "/") or name.startswith("NFL_RB"):
+        return "RB"
+    if "NFL_WR" in stats_csv.replace("\\", "/") or name.startswith("NFL_WR"):
+        return "WR"
+    return None
+
+
 @lru_cache(maxsize=8)
 def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None) -> pd.DataFrame:
-    """Load and normalize a stats CSV. Paths are strings for cacheability."""
-    df = pd.read_csv(stats_csv)
+    """Load and normalize a stats CSV. Paths are strings for cacheability.
+
+    Seasons 2021+ are embedded via ``nfl_player_search.season_data`` (offline
+    nflreadpy ETL output) and concatenated after dropping Year>=2021 from the
+    base historical CSV.
+    """
+    path = Path(stats_csv)
+    df = pd.read_csv(path)
+    pos = _position_from_stats_path(stats_csv)
+    if pos is not None:
+        try:
+            from nfl_player_search.season_data import load_modern_seasons
+            modern = load_modern_seasons(pos)
+            if "Year" in df.columns:
+                df = df[pd.to_numeric(df["Year"], errors="coerce") < 2021]
+            df = pd.concat([df, modern], ignore_index=True)
+        except Exception:
+            # Fall back to historical-only if embedded payload missing
+            pass
     if rename_items:
         df = df.rename(columns=dict(rename_items))
     if "Year" in df.columns:
