@@ -9,7 +9,7 @@ Originally built as a post-college learning project; this branch modernizes the 
 - Browse **Passers**, **Rushers**, and **Receivers** via `st.navigation` + segmented control
 - Player/year filters run inside `@st.fragment` so chart updates avoid a full-app rerun
 - Player + season selectors
-- Headshot (when scraped) or placeholder image
+- Headshot when an nflverse/NFL.com URL is available; otherwise silhouette + **Image unavailable**
 - Matplotlib radar chart vs season peers (team-colored when possible)
 - Season table, optional career table, season leaderboard, and composite rankings
 
@@ -56,7 +56,16 @@ python Scripts/etl_nflreadpy_append.py
 # optional: python Scripts/etl_nflreadpy_append.py --start 2021 --end 2025
 ```
 
-The ETL drops any existing `Year >= 2021` rows, rebuilds 2021→latest completed regular season from nflreadpy, rewrites Search CSVs, and regenerates `nfl_player_search/season_data/*_chunk_*.py`. Image CSVs are left untouched.
+The ETL drops any existing `Year >= 2021` rows, rebuilds 2021→latest completed regular season from nflreadpy, rewrites Search CSVs, and regenerates `nfl_player_search/season_data/*_chunk_*.py`.
+
+### Refresh headshots (dev / ETL)
+
+```bash
+pip install -r requirements-dev.txt
+python Scripts/etl_headshots_refresh.py
+```
+
+Rewrites `CSV_Files/NFL_{QB,RB,WR}/*_Search_Images.csv` and regenerates `nfl_player_search/image_data/*` zlib chunks with nflverse headshot URLs keyed by `gsis_id` (offline commit; no Cloud scrape). Historical players without nflverse photos remain missing by design — the UI shows a silhouette plus **Image unavailable**.
 
 ## Deploy
 
@@ -71,4 +80,4 @@ web: sh setup.sh && streamlit run streamlit_app.py
 - Stats are offline snapshots; re-run the ETL and commit season_data modules to pick up a new season
 - Games Started for 2025+ may be blank (nflverse depth-chart schema change); Age/Lng use players + PBP joins
 - Franchise naming in older rows may not match modern team-color keys (custom color picker available)
-- Image URLs / headshots are not refreshed by the ETL (see issue #4)
+- Pre-nflverse / unmatched historical players may lack headshots; UI labels those as **Image unavailable**
