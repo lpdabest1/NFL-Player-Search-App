@@ -1,45 +1,45 @@
-# Issue #4 spike notes — headshot refresh + missing-image UX
+# Issue #4 spike notes — headshot URL refresh + missing-image UX
 
 Date: 2026-09-07 (America/Chicago)
 
-## HTTP 200 sample (~50 modern players)
-- Source: `nflreadpy.load_player_stats(2021–2025, summary_level="reg")` → `headshot_url`
-- Sample: 50 players (QB/RB/TE mix, seasons ≥2023) with non-null URLs
-- Result: **50/50 HTTP 200** against `static.www.nfl.com` (HEAD then GET fallback)
-- Modern skill-position non-null `headshot_url` rate on unique `player_id`: **~99.7%**
+## Environment
+- `nflreadpy` 0.1.5; `get_current_season()`=2025, `get_current_week()`=22
+- Sample season for hit-rate: **2024 REG** player_stats
 
 ## Join keys
-- Stats `player_id` **==** players `gsis_id` (confirmed on samples)
-- Prefer map keyed by **`gsis_id` / `player_id`**
-- Emit UI join on **display `Player`** matching Search / season_data names (`player_display_name`)
-- Name collision risk: rare (e.g. two “Josh Johnson” gsis_ids in modern window); resolve via latest season’s `player_id` from stats
-- Trailing spaces in a few historical CSV names can miss exact match — strip for lookup, emit original stats `Player` string
+- Stats `player_id` **equals** `load_players().gsis_id` (200/200 sample matched)
+- Prefer **gsis_id** map for URLs; emit UI `Player` via `player_display_name` / `display_name` so `images["Player"].isin([player])` still works
+- Display-name collisions (multi-gsis) are rare (~197 across 1999–2025); resolve by position preference + latest season + non-null URL
 
-## Coverage vs app player universe (exact name join)
-| Category | Unique Players | Matched + URL | Modern (Year≥2021) URL |
-|----------|----------------|---------------|-------------------------|
-| QB       | ~1738          | ~87.6%        | **100%**                |
-| RB       | ~4983          | ~88.8%        | **100%**                |
-| WR       | ~5975          | ~89.8%        | **~99.7%**              |
+## 2024 non-null `headshot_url` (position filters same as #6 ETL)
+| Pos | with URL / unique players | rate |
+|-----|---------------------------|------|
+| QB  | 103/103 | **100%** |
+| RB  | 333/333 | **100%** |
+| WR  | 470/470 | **100%** |
 
-Gaps are mostly pre-nflverse / obscure names (e.g. Johnny Unitas, Gale Sayers, Bart Starr). Historical gaps are **acceptable** per decide-doc.
+`load_players().headshot` also ~99.3% non-null; stats URL preferred when both exist (NFL.com CDN).
 
-## Brandon Jacobs
-- Previously missing from RB **images** CSV (only Josh Jacobs present) while present in RB **stats**
-- `load_players()` has gsis `00-0023545` + working NFL.com headshot (**HTTP 200**)
-- After refresh, Jacobs is a **hit**, not a miss — use **Johnny Unitas** (or any unmatched historical) for “Image unavailable” smoke
+## HTTP check (~21 sample URLs)
+- User-Agent set; require `Content-Type: image/*`, body >500 bytes, reject HTML disguises
+- Result: **21/21 good** (PNG from `static.www.nfl.com`)
 
-## CSV vs embed decision
-- One row per unique `Player` with a URL; schema **`Player,Player Image`**
-- Estimated size well under existing PFR image CSVs (which duplicated per-year / stale PFR URLs)
-- **Decision: CSV + embed** — write `CSV_Files/NFL_{QB,RB,WR}/*_Search_Images.csv` and also commit zlib+base64 chunks under `nfl_player_search/image_data/` (same pattern as #6) so runtime load is offline/reliable; UI reads embed first via `load_images`
+## Name match vs app stats (hist CSV + season_data)
+Using `display_name`/`player_display_name` → gsis → URL (players.headshot ∪ stats headshot_url):
 
-## UX
-- Stop silent silhouette-as-photo
-- On no URL / all fetches fail → placeholder silhouette **plus** explicit **“Image unavailable”**
-- Ranking / radar untouched
+| Pos | overall URL rate | modern (≥2021) |
+|-----|------------------|----------------|
+| QB  | ~87–88% | **100%** |
+| RB  | ~88–89% | **100%** |
+| WR  | ~89–90% | **~99.8%** |
 
-## Out of scope (confirmed)
-- Live Cloud scrape / runtime nflverse fetch
-- PFR re-scrape
-- Guaranteeing 1960–1998 headshots
+Era gaps (expected): 1960–1979 ~3% URL; 1980–1998 ~23–28%; 1999+ strong.
+
+## Known miss
+- **Brandon Jacobs**: present in RB stats CSV, absent from old images CSV → expect silhouette + **Image missing** after UX change (may still lack nflverse URL depending on roster coverage)
+
+## Decisions locked for implement
+1. Remap via nflreadpy — **no PFR scrape**
+2. Commit refreshed `*_Search_Images.csv` (`Player`,`Player Image`); nflreadpy stays in requirements-dev only
+3. UX: failed/missing URL → silhouette **plus** `st.caption("Image missing")`
+4. Optional hardening: User-Agent + reject non-image bodies
