@@ -9,7 +9,7 @@ Originally built as a post-college learning project; this branch modernizes the 
 - Browse **Passers**, **Rushers**, and **Receivers** via `st.navigation` + segmented control
 - Player/year filters run inside `@st.fragment` so chart updates avoid a full-app rerun
 - Player + season selectors
-- Headshot when an nflverse/NFL.com URL is available; otherwise silhouette + **Image unavailable**
+- Headshot (nflverse URL when available) or silhouette + **Image missing** label
 - Matplotlib radar chart vs season peers (team-colored when possible)
 - Season table, optional career table, season leaderboard, and composite rankings
 
@@ -62,10 +62,11 @@ The ETL drops any existing `Year >= 2021` rows, rebuilds 2021→latest completed
 
 ```bash
 pip install -r requirements-dev.txt
-python Scripts/etl_headshots_refresh.py
+python Scripts/etl_nflreadpy_headshots.py
+# optional: python Scripts/etl_nflreadpy_headshots.py --stats-start 1999 --stats-end 2025
 ```
 
-Rewrites `CSV_Files/NFL_{QB,RB,WR}/*_Search_Images.csv` and regenerates `nfl_player_search/image_data/*` zlib chunks with nflverse headshot URLs keyed by `gsis_id` (offline commit; no Cloud scrape). Historical players without nflverse photos remain missing by design — the UI shows a silhouette plus **Image unavailable**.
+Rebuilds `CSV_Files/NFL_{QB,RB,WR}/*_Search_Images.csv` (`Player`,`Player Image`) by joining stats display names to nflverse **`gsis_id`** and taking `headshot_url` / `headshot`. Prefer gsis over fuzzy names; thin pre-~1999 coverage is expected. No PFR scrape; URLs are committed for Cloud (no runtime nflverse fetch).
 
 ## Deploy
 
@@ -80,4 +81,4 @@ web: sh setup.sh && streamlit run streamlit_app.py
 - Stats are offline snapshots; re-run the ETL and commit season_data modules to pick up a new season
 - Games Started for 2025+ may be blank (nflverse depth-chart schema change); Age/Lng use players + PBP joins
 - Franchise naming in older rows may not match modern team-color keys (custom color picker available)
-- Pre-nflverse / unmatched historical players may lack headshots; UI labels those as **Image unavailable**
+- Pre-~1999 / obscure careers may show silhouette + “Image missing” (nflverse headshot coverage is modern-leaning)
