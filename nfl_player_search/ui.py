@@ -26,7 +26,8 @@ season/career tables, and a composite ranking among that season's leaders.
 
 * **Libraries:** pandas, streamlit, numpy, matplotlib, pillow, requests
 * **Data source:** [pro-football-reference.com](https://www.pro-football-reference.com/)
-* **Coverage:** roughly 1960–2020 (bundled CSVs; not live)
+* **Coverage:** roughly 1960–present (historical CSVs + offline nflverse seasons; not live)
+* **Headshots:** nflverse / NFL.com URLs when available; otherwise silhouette + “Image unavailable”
 """
 
 # Maps category labels → st.navigation url_path values from streamlit_app.py
@@ -145,24 +146,34 @@ def render_category_page(config: CategoryConfig) -> None:
     _player_explorer()
 
 
+IMAGE_UNAVAILABLE_LABEL = "Image unavailable"
+
+
 def _render_player_image(col, images: pd.DataFrame, player: str, config: CategoryConfig) -> None:
-    has_image = images["Player"].isin([player]).any()
-    if has_image:
-        urls = images.loc[images["Player"] == player, "Player Image"]
-        for url in urls:
-            try:
-                resp = requests.get(str(url), timeout=10)
-                resp.raise_for_status()
-                img = Image.open(BytesIO(resp.content)).resize(config.image_size)
-                col.image(img, caption=player)
-                return
-            except Exception:
-                continue
+    """Show headshot when URL fetch works; otherwise silhouette + explicit unavailable label."""
+    urls = []
+    if "Player" in images.columns and "Player Image" in images.columns:
+        matched = images.loc[images["Player"] == player, "Player Image"].dropna()
+        urls = [str(u).strip() for u in matched if str(u).strip()]
+
+    for url in urls:
+        try:
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            img = Image.open(BytesIO(resp.content)).resize(config.image_size)
+            col.image(img, caption=player)
+            return
+        except Exception:
+            continue
+
+    _render_unavailable_image(col, player, config)
+
+
+def _render_unavailable_image(col, player: str, config: CategoryConfig) -> None:
     if config.placeholder_image.exists():
         img = Image.open(config.placeholder_image).resize(config.placeholder_size)
         col.image(img, caption=player)
-    else:
-        col.info("No player image available.")
+    col.caption(IMAGE_UNAVAILABLE_LABEL)
 
 
 def _render_rating_bands(ratings: pd.DataFrame, noun_plural: str, year: int) -> None:
