@@ -10,28 +10,38 @@ import pandas as pd
 from nfl_player_search.config import CategoryConfig
 
 
-def _modern_season_shards(stats_path: Path) -> list[Path]:
-    """Return nflreadpy season shard CSVs: ``NFL_QB_Search_2021.csv`` etc."""
-    return sorted(stats_path.parent.glob(f"{stats_path.stem}_20[2-9][0-9].csv"))
+def _position_from_stats_path(stats_csv: str) -> str | None:
+    name = Path(stats_csv).name.upper()
+    if "NFL_QB" in stats_csv.replace("\\", "/") or name.startswith("NFL_QB"):
+        return "QB"
+    if "NFL_RB" in stats_csv.replace("\\", "/") or name.startswith("NFL_RB"):
+        return "RB"
+    if "NFL_WR" in stats_csv.replace("\\", "/") or name.startswith("NFL_WR"):
+        return "WR"
+    return None
 
 
 @lru_cache(maxsize=8)
 def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None) -> pd.DataFrame:
     """Load and normalize a stats CSV. Paths are strings for cacheability.
 
-    Modern seasons (2021+) may live in sibling shard files named
-    ``{stem}_YYYY.csv`` produced by the nflreadpy ETL. Those are concatenated
-    after dropping Year>=2021 from the base file (idempotent with a fully
-    refreshed base CSV).
+    Seasons 2021+ are embedded via ``nfl_player_search.season_data`` (offline
+    nflreadpy ETL output) and concatenated after dropping Year>=2021 from the
+    base historical CSV.
     """
     path = Path(stats_csv)
     df = pd.read_csv(path)
-    shards = _modern_season_shards(path)
-    if shards:
-        if "Year" in df.columns:
-            df = df[pd.to_numeric(df["Year"], errors="coerce") < 2021]
-        parts = [df] + [pd.read_csv(p) for p in shards]
-        df = pd.concat(parts, ignore_index=True)
+    pos = _position_from_stats_path(stats_csv)
+    if pos is not None:
+        try:
+            from nfl_player_search.season_data import load_modern_seasons
+            modern = load_modern_seasons(pos)
+            if "Year" in df.columns:
+                df = df[pd.to_numeric(df["Year"], errors="coerce") < 2021]
+            df = pd.concat([df, modern], ignore_index=True)
+        except Exception:
+            # Fall back to historical-only if embedded payload missing
+            pass
     if rename_items:
         df = df.rename(columns=dict(rename_items))
     if "Year" in df.columns:
