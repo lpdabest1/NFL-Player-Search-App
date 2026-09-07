@@ -6,7 +6,8 @@ Originally built as a post-college learning project; this branch modernizes the 
 
 ## Features
 
-- Browse **Passers**, **Rushers**, and **Receivers**
+- Browse **Passers**, **Rushers**, and **Receivers** via `st.navigation` + segmented control
+- Player/year filters run inside `@st.fragment` so chart updates avoid a full-app rerun
 - Player + season selectors
 - Headshot (when scraped) or placeholder image
 - Matplotlib radar chart vs season peers (team-colored when possible)

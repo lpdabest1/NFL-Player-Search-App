@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from nfl_player_search.config import CATEGORIES
+from nfl_player_search.config import PASSING, RECEIVING, RUSHING
 from nfl_player_search.ui import render_category_page
 
 st.set_page_config(
@@ -18,11 +18,41 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.title("Pro Football Player Search")
-st.sidebar.title("Pro Football Archives")
 
-selection = st.sidebar.selectbox(
-    "Select One Of The Following Offensive Categories",
-    list(CATEGORIES.keys()),
+def _passers_page() -> None:
+    render_category_page(PASSING)
+
+
+def _rushers_page() -> None:
+    render_category_page(RUSHING)
+
+
+def _receivers_page() -> None:
+    render_category_page(RECEIVING)
+
+
+passers = st.Page(
+    _passers_page,
+    title="Passers (QB)",
+    icon="🏈",
+    url_path="passers",
+    default=True,
 )
-render_category_page(CATEGORIES[selection])
+rushers = st.Page(
+    _rushers_page,
+    title="Rushers (RB)",
+    icon="🏃",
+    url_path="rushers",
+)
+receivers = st.Page(
+    _receivers_page,
+    title="Receivers (WR/TE)",
+    icon="🏆",
+    url_path="receivers",
+)
+
+st.navigation(
+    {
+        "Pro Football Archives": [passers, rushers, receivers],
+    }
+).run()
