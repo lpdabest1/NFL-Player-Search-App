@@ -87,11 +87,11 @@ def render_category_page(config: CategoryConfig) -> None:
     career = stats.loc[stats["Player"] == player]
     season_row = career.loc[career["Year"] == year]
     st.markdown(f"{player} {year} Stats")
-    st.dataframe(season_row, use_container_width=True)
+    st.dataframe(season_row, width="stretch")
 
     if st.sidebar.checkbox("Career"):
         st.subheader(f"{player} Career Stats")
-        st.dataframe(career, use_container_width=True)
+        st.dataframe(career, width="stretch")
 
     pool_n = season_leaderboard_size(int(year))
     leaders = ranked.head(pool_n).copy()
@@ -99,7 +99,7 @@ def render_category_page(config: CategoryConfig) -> None:
 
     if st.sidebar.checkbox(f"{config.season_checkbox_label} {year} Season"):
         st.caption(config.season_caption)
-        st.dataframe(leaders, use_container_width=True)
+        st.dataframe(leaders, width="stretch")
 
     if st.sidebar.checkbox("Rankings"):
         _render_rating_bands(ratings, config.noun_plural, int(year))
@@ -138,15 +138,15 @@ def _render_rating_bands(ratings: pd.DataFrame, noun_plural: str, year: int) -> 
     if 1960 <= year < 1970:
         left, right = st.columns(2)
         left.subheader(f"Top 10 Rated {noun_plural}")
-        left.dataframe(ratings.head(10), use_container_width=True)
+        left.dataframe(ratings.head(10), width="stretch")
         right.subheader(f"Bottom 10 Rated {noun_plural}")
-        right.dataframe(ratings.tail(10), use_container_width=True)
+        right.dataframe(ratings.tail(10), width="stretch")
         return
 
     top, mid, bottom = st.columns(3)
     top.subheader(f"Top 10 Rated {noun_plural}")
-    top.dataframe(ratings.head(10), use_container_width=True)
+    top.dataframe(ratings.head(10), width="stretch")
     mid.subheader(f'"Middle Of The Pack" Rated {noun_plural}')
-    mid.dataframe(ratings.iloc[10:22], use_container_width=True)
+    mid.dataframe(ratings.iloc[10:22], width="stretch")
     bottom.subheader(f"Bottom 10 Rated {noun_plural}")
-    bottom.dataframe(ratings.tail(10), use_container_width=True)
+    bottom.dataframe(ratings.tail(10), width="stretch")
