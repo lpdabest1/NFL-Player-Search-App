@@ -46,7 +46,7 @@ rushers = st.Page(
 )
 receivers = st.Page(
     _receivers_page,
-    title="Receivers (WR/TE)",
+    title="Receivers (WR/TE/RB)",
     icon="🏆",
     url_path="receivers",
 )
