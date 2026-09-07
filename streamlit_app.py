@@ -1,6 +1,6 @@
-"""Deprecated entrypoint.
+"""Entrypoint for the NFL Player Search Streamlit app.
 
-Use the modernized app from the repository root:
+Run from the repository root:
 
     streamlit run streamlit_app.py
 """
@@ -20,7 +20,6 @@ st.set_page_config(
 
 st.title("Pro Football Player Search")
 st.sidebar.title("Pro Football Archives")
-st.sidebar.warning("Prefer `streamlit run streamlit_app.py` — this path is legacy-compatible only.")
 
 selection = st.sidebar.selectbox(
     "Select One Of The Following Offensive Categories",
