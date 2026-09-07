@@ -1,5 +1,5 @@
 """Assemble compressed wr payload."""
-from . import wr_chunk_00, wr_chunk_01, wr_chunk_02, wr_chunk_03, wr_chunk_04, wr_chunk_05, wr_chunk_06, wr_chunk_07, wr_chunk_08, wr_chunk_09, wr_chunk_10, wr_chunk_11, wr_chunk_12
+from . import wr_chunk_00, wr_chunk_01, wr_chunk_02, wr_chunk_03, wr_chunk_04, wr_chunk_05, wr_chunk_06, wr_chunk_07, wr_chunk_08, wr_chunk_09, wr_chunk_10, wr_chunk_11, wr_chunk_12, wr_chunk_13, wr_chunk_14, wr_chunk_15, wr_chunk_16, wr_chunk_17, wr_chunk_18, wr_chunk_19, wr_chunk_20, wr_chunk_21, wr_chunk_22, wr_chunk_23, wr_chunk_24, wr_chunk_25, wr_chunk_26, wr_chunk_27, wr_chunk_28, wr_chunk_29, wr_chunk_30, wr_chunk_31, wr_chunk_32, wr_chunk_33, wr_chunk_34, wr_chunk_35, wr_chunk_36
 DATA_B64 = "".join([
     wr_chunk_00.CHUNK,
     wr_chunk_01.CHUNK,
@@ -14,4 +14,28 @@ DATA_B64 = "".join([
     wr_chunk_10.CHUNK,
     wr_chunk_11.CHUNK,
     wr_chunk_12.CHUNK,
+    wr_chunk_13.CHUNK,
+    wr_chunk_14.CHUNK,
+    wr_chunk_15.CHUNK,
+    wr_chunk_16.CHUNK,
+    wr_chunk_17.CHUNK,
+    wr_chunk_18.CHUNK,
+    wr_chunk_19.CHUNK,
+    wr_chunk_20.CHUNK,
+    wr_chunk_21.CHUNK,
+    wr_chunk_22.CHUNK,
+    wr_chunk_23.CHUNK,
+    wr_chunk_24.CHUNK,
+    wr_chunk_25.CHUNK,
+    wr_chunk_26.CHUNK,
+    wr_chunk_27.CHUNK,
+    wr_chunk_28.CHUNK,
+    wr_chunk_29.CHUNK,
+    wr_chunk_30.CHUNK,
+    wr_chunk_31.CHUNK,
+    wr_chunk_32.CHUNK,
+    wr_chunk_33.CHUNK,
+    wr_chunk_34.CHUNK,
+    wr_chunk_35.CHUNK,
+    wr_chunk_36.CHUNK,
 ])
