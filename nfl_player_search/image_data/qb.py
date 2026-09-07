@@ -6,5 +6,5 @@ DATA_B64 = "".join([
     qb_chunk_02.CHUNK,
     qb_chunk_03.CHUNK,
     qb_chunk_04.CHUNK,
-    qb_chunk_05.CHUNK,
+    qb_chunk_05.CHUNK
 ])

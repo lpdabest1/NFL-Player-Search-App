@@ -21,5 +21,5 @@ DATA_B64 = "".join([
     wr_chunk_17.CHUNK,
     wr_chunk_18.CHUNK,
     wr_chunk_19.CHUNK,
-    wr_chunk_20.CHUNK,
+    wr_chunk_20.CHUNK
 ])
