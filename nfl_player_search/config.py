@@ -42,6 +42,7 @@ TEAM_COLORS: Dict[str, str] = {
     "Tampa Bay Buccaneers": "#d50a0a",
     "Tennessee Titans": "#0c2340",
     "Washington Football Team": "#773141",
+    "Washington Commanders": "#773141",
 }
 
 
