@@ -1,0 +1,28 @@
+"""Assemble compressed rb image payload."""
+from . import rb_chunk_00, rb_chunk_01, rb_chunk_02, rb_chunk_03, rb_chunk_04, rb_chunk_05, rb_chunk_06, rb_chunk_07, rb_chunk_08, rb_chunk_09, rb_chunk_10, rb_chunk_11, rb_chunk_12, rb_chunk_13, rb_chunk_14, rb_chunk_15, rb_chunk_16, rb_chunk_17, rb_chunk_18, rb_chunk_19, rb_chunk_20, rb_chunk_21, rb_chunk_22, rb_chunk_23
+DATA_B64 = "".join([
+    rb_chunk_00.CHUNK,
+    rb_chunk_01.CHUNK,
+    rb_chunk_02.CHUNK,
+    rb_chunk_03.CHUNK,
+    rb_chunk_04.CHUNK,
+    rb_chunk_05.CHUNK,
+    rb_chunk_06.CHUNK,
+    rb_chunk_07.CHUNK,
+    rb_chunk_08.CHUNK,
+    rb_chunk_09.CHUNK,
+    rb_chunk_10.CHUNK,
+    rb_chunk_11.CHUNK,
+    rb_chunk_12.CHUNK,
+    rb_chunk_13.CHUNK,
+    rb_chunk_14.CHUNK,
+    rb_chunk_15.CHUNK,
+    rb_chunk_16.CHUNK,
+    rb_chunk_17.CHUNK,
+    rb_chunk_18.CHUNK,
+    rb_chunk_19.CHUNK,
+    rb_chunk_20.CHUNK,
+    rb_chunk_21.CHUNK,
+    rb_chunk_22.CHUNK,
+    rb_chunk_23.CHUNK,
+])
