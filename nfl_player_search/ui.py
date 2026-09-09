@@ -25,11 +25,12 @@ Pick a player and season to see headshots (when available), a peer radar chart,
 season/career tables, and a composite ranking among that season's leaders.
 
 * **Libraries:** pandas, streamlit, numpy, matplotlib, pillow, requests
-* **Data source:** [pro-football-reference.com](https://www.pro-football-reference.com/)
-* **Coverage:** roughly 1960–2020 (bundled CSVs; not live)
+* **Data source:** historical PFR rows + offline nflverse (`nflreadpy`) seasons 2021+
+* **Coverage:** roughly 1960-present (bundled CSVs / embedded season payloads; not live)
+* **Headshots:** nflverse / NFL.com URLs when available; otherwise a silhouette with an **Image missing** label
 """
 
-# Maps category labels → st.navigation url_path values from streamlit_app.py
+# Maps category labels -> st.navigation url_path values from streamlit_app.py
 _CATEGORY_PAGE_PATHS = {
     "Passers (QB)": "passers",
     "Rushers (RB)": "rushers",
@@ -145,24 +146,59 @@ def render_category_page(config: CategoryConfig) -> None:
     _player_explorer()
 
 
-def _render_player_image(col, images: pd.DataFrame, player: str, config: CategoryConfig) -> None:
-    has_image = images["Player"].isin([player]).any()
-    if has_image:
-        urls = images.loc[images["Player"] == player, "Player Image"]
-        for url in urls:
-            try:
-                resp = requests.get(str(url), timeout=10)
-                resp.raise_for_status()
-                img = Image.open(BytesIO(resp.content)).resize(config.image_size)
-                col.image(img, caption=player)
-                return
-            except Exception:
-                continue
+IMAGE_MISSING_LABEL = "Image missing"
+_IMAGE_HEADERS = {
+    "User-Agent": (
+        "NFL-Player-Search-App/1.0 "
+        "(+https://github.com/lpdabest1/NFL-Player-Search-App)"
+    )
+}
+
+
+def _response_looks_like_image(resp: requests.Response) -> bool:
+    """Reject HTML error pages / empty bodies even when status is 200."""
+    ctype = (resp.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+    if not ctype.startswith("image/"):
+        return False
+    content = resp.content or b""
+    if len(content) < 500:
+        return False
+    head = content[:200].lstrip().lower()
+    if head.startswith(b"<!doctype") or head.startswith(b"<html") or b"<html" in head:
+        return False
+    return True
+
+
+def _show_missing_image(col, player: str, config: CategoryConfig) -> None:
     if config.placeholder_image.exists():
         img = Image.open(config.placeholder_image).resize(config.placeholder_size)
         col.image(img, caption=player)
     else:
         col.info("No player image available.")
+    col.caption(IMAGE_MISSING_LABEL)
+
+
+def _render_player_image(col, images: pd.DataFrame, player: str, config: CategoryConfig) -> None:
+    has_image = images["Player"].isin([player]).any()
+    if has_image:
+        urls = images.loc[images["Player"] == player, "Player Image"]
+        for url in urls:
+            if pd.isna(url):
+                continue
+            url_s = str(url).strip()
+            if not url_s or url_s.lower() in {"nan", "none"}:
+                continue
+            try:
+                resp = requests.get(url_s, timeout=10, headers=_IMAGE_HEADERS)
+                resp.raise_for_status()
+                if not _response_looks_like_image(resp):
+                    continue
+                img = Image.open(BytesIO(resp.content)).resize(config.image_size)
+                col.image(img, caption=player)
+                return
+            except Exception:
+                continue
+    _show_missing_image(col, player, config)
 
 
 def _render_rating_bands(ratings: pd.DataFrame, noun_plural: str, year: int) -> None:
