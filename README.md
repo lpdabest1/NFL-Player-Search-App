@@ -9,7 +9,7 @@ Originally built as a post-college learning project; this branch modernizes the 
 - Browse **Passers**, **Rushers**, and **Receivers** via `st.navigation` + segmented control
 - Player/year filters run inside `@st.fragment` so chart updates avoid a full-app rerun
 - Player + season selectors
-- Headshot (nflverse URL when available) or silhouette + **Image missing** label
+- Headshot (nflverse URL when available) or silhouette + **Image unavailable** label
 - Matplotlib radar chart vs season peers (team-colored when possible)
 - Season table, optional career table, season leaderboard, and composite rankings
 
@@ -17,7 +17,7 @@ Originally built as a post-college learning project; this branch modernizes the 
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+source .venv/activate  # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
@@ -81,4 +81,4 @@ web: sh setup.sh && streamlit run streamlit_app.py
 - Stats are offline snapshots; re-run the ETL and commit season_data modules to pick up a new season
 - Games Started for 2025+ may be blank (nflverse depth-chart schema change); Age/Lng use players + PBP joins
 - Franchise naming in older rows may not match modern team-color keys (custom color picker available)
-- Pre-~1999 / obscure careers may show silhouette + “Image missing” (nflverse headshot coverage is modern-leaning)
+- Pre-~1999 / obscure careers may show silhouette + “Image unavailable” (nflverse headshot coverage is modern-leaning)

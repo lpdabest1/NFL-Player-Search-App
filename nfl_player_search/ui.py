@@ -27,7 +27,7 @@ season/career tables, and a composite ranking among that season's leaders.
 * **Libraries:** pandas, streamlit, numpy, matplotlib, pillow, requests
 * **Data source:** historical PFR rows + offline nflverse (`nflreadpy`) seasons 2021+
 * **Coverage:** roughly 1960-present (bundled CSVs / embedded season payloads; not live)
-* **Headshots:** nflverse / NFL.com URLs when available; otherwise a silhouette with an **Image missing** label
+* **Headshots:** nflverse / NFL.com URLs when available; otherwise a silhouette with an **Image unavailable** label
 """
 
 # Maps category labels -> st.navigation url_path values from streamlit_app.py
@@ -146,7 +146,7 @@ def render_category_page(config: CategoryConfig) -> None:
     _player_explorer()
 
 
-IMAGE_MISSING_LABEL = "Image missing"
+IMAGE_MISSING_LABEL = "Image unavailable"
 _IMAGE_HEADERS = {
     "User-Agent": (
         "NFL-Player-Search-App/1.0 "
