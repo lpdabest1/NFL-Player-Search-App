@@ -36,7 +36,7 @@ def test_modern_star_has_headshot_url() -> None:
 
 
 def test_historical_miss_has_empty_url_for_missing_label() -> None:
-    """Pre-nflverse careers often lack URLs — UI shows silhouette + Image missing."""
+    """Pre-nflverse careers often lack URLs — UI shows silhouette + Image unavailable."""
     rb_imgs = pd.read_csv(RUSHING.images_csv)
     stats = load_stats(str(RUSHING.stats_csv), None)
     # Jim Brown is in RB stats; nflverse headshot coverage for 1960s is thin.
