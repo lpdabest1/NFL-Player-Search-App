@@ -18,7 +18,7 @@ from nfl_player_search.ui import (
 
 def test_image_csvs_have_player_and_url_columns() -> None:
     for cfg in (PASSING, RUSHING, RECEIVING):
-        imgs = pd.read_csv(cfg.images_csv)
+        imgs = load_images(str(cfg.images_csv))
         assert list(imgs.columns)[:2] == ["Player", "Player Image"]
         assert imgs["Player"].notna().all()
         assert imgs["Player"].nunique() == len(imgs)
@@ -26,7 +26,7 @@ def test_image_csvs_have_player_and_url_columns() -> None:
 
 def test_modern_star_has_headshot_url() -> None:
     """A known modern star should carry a non-empty nflverse/NFL.com URL."""
-    qb = pd.read_csv(PASSING.images_csv)
+    qb = load_images(str(PASSING.images_csv))
     # Patrick Mahomes / Josh Allen style — at least one of these after refresh
     stars = {"Patrick Mahomes", "Josh Allen", "Joe Burrow", "Lamar Jackson"}
     rows = qb[qb["Player"].isin(stars)]
@@ -37,7 +37,7 @@ def test_modern_star_has_headshot_url() -> None:
 
 def test_historical_miss_has_empty_url_for_missing_label() -> None:
     """Pre-nflverse careers often lack URLs — UI shows silhouette + Image unavailable."""
-    rb_imgs = pd.read_csv(RUSHING.images_csv)
+    rb_imgs = load_images(str(RUSHING.images_csv))
     stats = load_stats(str(RUSHING.stats_csv), None)
     # Jim Brown is in RB stats; nflverse headshot coverage for 1960s is thin.
     assert (stats["Player"] == "Jim Brown").any()

@@ -49,9 +49,44 @@ def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None)
     return df
 
 
+def _position_from_images_path(images_csv: str) -> str | None:
+    path = images_csv.replace("\\", "/")
+    name = Path(images_csv).name.upper()
+    if "NFL_QB" in path or name.startswith("NFL_QB"):
+        return "QB"
+    if "NFL_RB" in path or name.startswith("NFL_RB"):
+        return "RB"
+    if "NFL_WR" in path or name.startswith("NFL_WR"):
+        return "WR"
+    return None
+
+
+def _urls_look_like_pfr(frame: pd.DataFrame) -> bool:
+    if "Player Image" not in frame.columns:
+        return False
+    sample = frame["Player Image"].dropna().astype(str).head(50)
+    if sample.empty:
+        return False
+    return bool(sample.str.contains("pro-football-reference", case=False, regex=False).mean() > 0.5)
+
+
 @lru_cache(maxsize=8)
 def load_images(images_csv: str) -> pd.DataFrame:
-    """Load player image URL table from refreshed CSVs (nflverse / NFL.com)."""
+    """Load player image URLs.
+
+    Prefer on-disk CSV when it already carries refreshed nflverse/NFL.com URLs.
+    If the CSV is missing or still has stale PFR URLs, use the complete
+    ``image_data`` embeds built by the nflreadpy headshot ETL.
+    """
+    path = Path(images_csv)
+    pos = _position_from_images_path(images_csv)
+    if path.is_file():
+        frame = pd.read_csv(path)
+        if not _urls_look_like_pfr(frame):
+            return frame
+    if pos is not None:
+        from nfl_player_search.image_data import load_image_frame
+        return load_image_frame(pos)
     return pd.read_csv(images_csv)
 
 
