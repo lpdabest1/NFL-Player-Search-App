@@ -85,16 +85,30 @@ def _csv_looks_refreshed(frame: pd.DataFrame) -> bool:
     return bool(modern.mean() >= 0.5) and not _urls_look_like_pfr(frame)
 
 
+def _load_image_csv_parts(images_csv: str) -> pd.DataFrame | None:
+    """Load refreshed image map from NFL_*_Search_Images.pXX.csv shards if present."""
+    path = Path(images_csv)
+    parts = sorted(path.parent.glob(f"{path.stem}.p*.csv"))
+    if not parts:
+        return None
+    frame = pd.concat([pd.read_csv(p) for p in parts], ignore_index=True)
+    if _csv_looks_refreshed(frame):
+        return frame
+    return None
+
+
 @lru_cache(maxsize=8)
 def load_images(images_csv: str) -> pd.DataFrame:
     """Load player image URLs.
 
-    Prefer on-disk CSV when it already carries refreshed nflverse/NFL.com URLs.
-    If the CSV is missing, tiny, stale PFR, or otherwise unusable, use the
-    complete ``image_data`` embeds built by the nflreadpy headshot ETL.
+    Prefer sharded refreshed CSVs (``*.pXX.csv``), then a single refreshed CSV,
+    then complete ``image_data`` embeds. Never prefer stale PFR URLs.
     """
     path = Path(images_csv)
     pos = _position_from_images_path(images_csv)
+    parted = _load_image_csv_parts(images_csv)
+    if parted is not None:
+        return parted
     if path.is_file():
         try:
             frame = pd.read_csv(path)
