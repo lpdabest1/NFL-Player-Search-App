@@ -17,7 +17,7 @@ Originally built as a post-college learning project; this branch modernizes the 
 
 ```bash
 python -m venv .venv
-source .venv/activate  # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
