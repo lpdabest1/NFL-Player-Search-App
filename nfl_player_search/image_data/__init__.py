@@ -1,4 +1,4 @@
-"""Compressed image URL CSV payloads (issue #4)."""
+"""Compressed image URL CSV payloads from nflreadpy (issue #4 repair)."""
 from __future__ import annotations
 
 import base64
