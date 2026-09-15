@@ -49,9 +49,76 @@ def load_stats(stats_csv: str, rename_items: tuple[tuple[str, str], ...] | None)
     return df
 
 
+def _position_from_images_path(images_csv: str) -> str | None:
+    path = images_csv.replace("\\", "/")
+    name = Path(images_csv).name.upper()
+    if "NFL_QB" in path or name.startswith("NFL_QB"):
+        return "QB"
+    if "NFL_RB" in path or name.startswith("NFL_RB"):
+        return "RB"
+    if "NFL_WR" in path or name.startswith("NFL_WR"):
+        return "WR"
+    return None
+
+
+def _urls_look_like_pfr(frame: pd.DataFrame) -> bool:
+    if "Player Image" not in frame.columns:
+        return True
+    sample = frame["Player Image"].dropna().astype(str).head(50)
+    if sample.empty:
+        return True
+    return bool(sample.str.contains("pro-football-reference", case=False, regex=False).mean() > 0.5)
+
+
+def _csv_looks_refreshed(frame: pd.DataFrame) -> bool:
+    """True when on-disk CSV is a unique Player→URL map with modern nfl.com URLs."""
+    if list(frame.columns)[:2] != ["Player", "Player Image"]:
+        return False
+    if frame.empty or frame["Player"].nunique() != len(frame):
+        return False
+    if len(frame) < 100:
+        return False
+    sample = frame["Player Image"].dropna().astype(str)
+    if sample.empty:
+        return False
+    modern = sample.str.contains("static.www.nfl.com|nflverse", case=False, regex=True)
+    return bool(modern.mean() >= 0.5) and not _urls_look_like_pfr(frame)
+
+
+def _load_image_csv_parts(images_csv: str) -> pd.DataFrame | None:
+    """Load refreshed image map from NFL_*_Search_Images.pXX.csv shards if present."""
+    path = Path(images_csv)
+    parts = sorted(path.parent.glob(f"{path.stem}.p*.csv"))
+    if not parts:
+        return None
+    frame = pd.concat([pd.read_csv(p) for p in parts], ignore_index=True)
+    if _csv_looks_refreshed(frame):
+        return frame
+    return None
+
+
 @lru_cache(maxsize=8)
 def load_images(images_csv: str) -> pd.DataFrame:
-    """Load player image URL CSV."""
+    """Load player image URLs.
+
+    Prefer sharded refreshed CSVs (``*.pXX.csv``), then a single refreshed CSV,
+    then complete ``image_data`` embeds. Never prefer stale PFR URLs.
+    """
+    path = Path(images_csv)
+    pos = _position_from_images_path(images_csv)
+    parted = _load_image_csv_parts(images_csv)
+    if parted is not None:
+        return parted
+    if path.is_file():
+        try:
+            frame = pd.read_csv(path)
+        except Exception:
+            frame = None
+        if frame is not None and _csv_looks_refreshed(frame):
+            return frame
+    if pos is not None:
+        from nfl_player_search.image_data import load_image_frame
+        return load_image_frame(pos)
     return pd.read_csv(images_csv)
 
 

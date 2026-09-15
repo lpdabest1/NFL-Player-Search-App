@@ -24,3 +24,16 @@ WR_HEADERS = [
     "Player", "Team", "Age", "Games Played", "Games Started",
     "Rec", "Yards", "Y/C", "TD", "Long", "Rec/G", "Y/G", "Year",
 ]
+
+# Image URL CSVs (issue #4)
+QB_IMAGES_CSV = REPO_ROOT / "CSV_Files" / "NFL_QB" / "NFL_QB_Search_Images.csv"
+RB_IMAGES_CSV = REPO_ROOT / "CSV_Files" / "NFL_RB" / "NFL_RB_Search_Images.csv"
+WR_IMAGES_CSV = REPO_ROOT / "CSV_Files" / "NFL_WR" / "NFL_WR_Search_Images.csv"
+IMAGE_HEADERS = ["Player", "Player Image"]
+
+# Soft position preference when resolving display-name → gsis collisions
+POSITION_PREFERENCE = {
+    "QB": ("QB",),
+    "RB": ("RB", "FB"),
+    "WR": ("WR", "TE", "RB", "FB"),
+}
