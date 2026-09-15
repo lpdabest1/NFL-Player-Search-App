@@ -63,11 +63,26 @@ def _position_from_images_path(images_csv: str) -> str | None:
 
 def _urls_look_like_pfr(frame: pd.DataFrame) -> bool:
     if "Player Image" not in frame.columns:
-        return False
+        return True
     sample = frame["Player Image"].dropna().astype(str).head(50)
     if sample.empty:
-        return False
+        return True
     return bool(sample.str.contains("pro-football-reference", case=False, regex=False).mean() > 0.5)
+
+
+def _csv_looks_refreshed(frame: pd.DataFrame) -> bool:
+    """True when on-disk CSV is a unique Player→URL map with modern nfl.com URLs."""
+    if list(frame.columns)[:2] != ["Player", "Player Image"]:
+        return False
+    if frame.empty or frame["Player"].nunique() != len(frame):
+        return False
+    if len(frame) < 100:
+        return False
+    sample = frame["Player Image"].dropna().astype(str)
+    if sample.empty:
+        return False
+    modern = sample.str.contains("static.www.nfl.com|nflverse", case=False, regex=True)
+    return bool(modern.mean() >= 0.5) and not _urls_look_like_pfr(frame)
 
 
 @lru_cache(maxsize=8)
@@ -75,14 +90,17 @@ def load_images(images_csv: str) -> pd.DataFrame:
     """Load player image URLs.
 
     Prefer on-disk CSV when it already carries refreshed nflverse/NFL.com URLs.
-    If the CSV is missing or still has stale PFR URLs, use the complete
-    ``image_data`` embeds built by the nflreadpy headshot ETL.
+    If the CSV is missing, tiny, stale PFR, or otherwise unusable, use the
+    complete ``image_data`` embeds built by the nflreadpy headshot ETL.
     """
     path = Path(images_csv)
     pos = _position_from_images_path(images_csv)
     if path.is_file():
-        frame = pd.read_csv(path)
-        if not _urls_look_like_pfr(frame):
+        try:
+            frame = pd.read_csv(path)
+        except Exception:
+            frame = None
+        if frame is not None and _csv_looks_refreshed(frame):
             return frame
     if pos is not None:
         from nfl_player_search.image_data import load_image_frame
